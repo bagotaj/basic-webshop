@@ -16,29 +16,24 @@ export default function CheapestFirst() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    const unsubscribe = db.collection('shopItems').orderBy("price", "asc").onSnapshot((snapshot) => {
-      const data = [];
+    const unsubscribe = db
+      .collection('shopItems')
+      .orderBy('price', 'asc')
+      .onSnapshot((snapshot) => {
+        const data = [];
 
-      snapshot.docs.forEach((product) => {
-        const docItem = product.data();
-        docItem['docId'] = product.id;
+        snapshot.docs.forEach((product) => {
+          const docItem = product.data();
+          docItem['docId'] = product.id;
 
-        data.push(docItem);
+          data.push(docItem);
+        });
+        setProducts(data);
       });
-      setProducts(data);
-    });
     return () => {
       unsubscribe();
     };
   }, []);
 
-  return (
-    <div className="container">
-      <h1 className="text-info mt-3">My Shop</h1>
-      <hr className="text-info" />
-      <FilterBtns links={links} />
-      <Table products={products} />
-    </div>
-  );
+  return <Table products={products} />;
 }
-

@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  NavLink,
+} from 'react-router-dom';
+
+import Home from './Home.js';
+import MoreFilters from './MoreFilters';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="container">
+        <header className="d-flex justify-content-between mt-3">
+          <NavLink to="/" style={{ textDecoration: 'none' }}>
+            <h1 className="link-info">My Shop</h1>
+          </NavLink>
+          <NavLink to="/more-filters" style={{ textDecoration: 'none' }}>
+            <h2 className="h1 link-info">More >></h2>
+          </NavLink>
+        </header>
+        <hr className="text-info" />
+        <Switch>
+          <Route path="/more-filters">
+            <MoreFilters />
+          </Route>
+          <Route exact path="/">
+            <Home />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 

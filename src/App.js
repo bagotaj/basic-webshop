@@ -7,10 +7,28 @@ import {
   NavLink,
 } from 'react-router-dom';
 
+import { useState } from 'react';
+
 import Home from './Home.js';
 import MoreFilters from './MoreFilters';
+import FilterBtns from './components/FilterBtns';
+import OnlyAvailable from './OnlyAvailable';
+import CheapestFirst from './CheapestFirst';
+import ContainsNike from './ContainsNike';
+import AverageStock from './AverageStock';
+import MostExpensive from './MostExpensive';
+import EditForm from './components/EditForm';
+import NewProduct from './NewProduct';
 
 function App() {
+  const [links, setLinks] = useState({
+    'only available': '/only-available',
+    'cheapest first': '/cheapest-first',
+    'contains nike': '/contains-nike',
+    'average stock': '/average-stock',
+    'most expensive available': '/most-expensive',
+  });
+
   return (
     <Router>
       <div className="container">
@@ -23,9 +41,31 @@ function App() {
           </NavLink>
         </header>
         <hr className="text-info" />
+        <FilterBtns links={links} />
         <Switch>
           <Route path="/more-filters">
             <MoreFilters />
+          </Route>
+          <Route path="/new-product">
+            <NewProduct />
+          </Route>
+          <Route path="/product/edit/:id">
+            <EditForm />
+          </Route>
+          <Route path="/only-available">
+            <OnlyAvailable />
+          </Route>
+          <Route path="/cheapest-first">
+            <CheapestFirst />
+          </Route>
+          <Route path="/contains-nike">
+            <ContainsNike />
+          </Route>
+          <Route path="/average-stock">
+            <AverageStock />
+          </Route>
+          <Route path="/most-expensive">
+            <MostExpensive />
           </Route>
           <Route exact path="/">
             <Home />

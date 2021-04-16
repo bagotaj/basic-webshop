@@ -4,6 +4,10 @@ body {
   box-sizing: border-box;
 }
 
+.container {
+  max-width: 972px;
+}
+
 .btn-orange {
   background-color: rgb(244, 67, 54);
   color: rgb(255, 255, 255);

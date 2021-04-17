@@ -30,6 +30,16 @@ function App() {
     'most expensive available': '/most-expensive',
   });
 
+  const routes = [
+    { path: '/new-product', component: NewProduct },
+    { path: '/product/edit/:id', component: EditForm },
+    { path: '/only-available', component: OnlyAvailable },
+    { path: '/cheapest-first', component: CheapestFirst },
+    { path: '/contains-nike', component: ContainsNike },
+    { path: '/average-stock', component: AverageStock },
+    { path: '/most-expensive', component: MostExpensive },
+  ];
+
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -66,27 +76,18 @@ function App() {
           <Route path="/more-filters">
             <MoreFilters />
           </Route>
-          <Route path="/new-product">
-            <NewProduct />
-          </Route>
-          <Route path="/product/edit/:id">
-            <EditForm />
-          </Route>
-          <Route path="/only-available">
-            <OnlyAvailable />
-          </Route>
-          <Route path="/cheapest-first">
-            <CheapestFirst />
-          </Route>
-          <Route path="/contains-nike">
-            <ContainsNike />
-          </Route>
-          <Route path="/average-stock">
-            <AverageStock />
-          </Route>
-          <Route path="/most-expensive">
-            <MostExpensive />
-          </Route>
+          {routes.map((route, i) => (
+            <Route
+              path={route.path}
+              render={(props) => (
+                <route.component
+                  {...props}
+                  products={products}
+                  setProducts={setProducts}
+                />
+              )}
+            />
+          ))}
           <Route exact path="/">
             <Home products={products} setProducts={setProducts} />
           </Route>

@@ -1,39 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import db from './firebase/db';
+import React from 'react';
 
-import FilterBtns from './components/FilterBtns';
 import Table from './components/Table';
 
-export default function CheapestFirst() {
-  const [links, setLinks] = useState({
-    'only available': '/only-available',
-    'cheapest first': '/cheapest-first',
-    'contains nike': '/contains-nike',
-    'average stock': '/average-stock',
-    'most expensive available': '/most-expensive',
-  });
+export default function CheapestFirst({ products }) {
+  function getCheapestFirst() {
+    let newProducts = products;
 
-  const [products, setProducts] = useState([]);
+    newProducts.sort((a, b) => (a.price > b.price ? 1 : -1));
 
-  useEffect(() => {
-    const unsubscribe = db
-      .collection('shopItems')
-      .orderBy('price', 'asc')
-      .onSnapshot((snapshot) => {
-        const data = [];
+    return newProducts;
+  }
 
-        snapshot.docs.forEach((product) => {
-          const docItem = product.data();
-          docItem['docId'] = product.id;
-
-          data.push(docItem);
-        });
-        setProducts(data);
-      });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-
-  return <Table products={products} />;
+  return <Table products={getCheapestFirst()} />;
 }

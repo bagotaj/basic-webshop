@@ -67,7 +67,7 @@ function App() {
             <h1 className="link-info">My Shop</h1>
           </NavLink>
           <NavLink to="/more-filters" style={{ textDecoration: 'none' }}>
-            <h2 className="h1 link-info">More >></h2>
+            <h2 className="h1 link-info">More {'>>'}</h2>
           </NavLink>
         </header>
         <hr className="text-info" />

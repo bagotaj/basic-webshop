@@ -95,7 +95,6 @@ export default function EditForm() {
       ...previousErrors,
       [fieldName]: '',
     }));
-    //references[fieldName].current.setCustomValidity('');
 
     if (validators[fieldName] !== undefined) {
       for (const [validationType, validatorFn] of Object.entries(
@@ -137,7 +136,6 @@ export default function EditForm() {
     const name = e.target.name;
     validateField(name);
   }
-
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -187,12 +185,17 @@ export default function EditForm() {
       <div className="row">
         <h1 className="text-info mt-3">Edit product details</h1>
         <hr className="text-info" />
-        {/* <Link to='/'><button type="button" className="btn btn-orange">Back</button></Link> */}
+        {formAlertText && (
+          <div className={`alert mt-3 alert-${formAlertType}`} role="alert">
+            {formAlertText}
+          </div>
+        )}
         <form
           onSubmit={handleSubmit}
           noValidate={true}
-          className={`needs-validation ${formWasValidated ? 'was-validated' : ''
-            }`}
+          className={`needs-validation ${
+            formWasValidated ? 'was-validated' : ''
+          }`}
         >
           <InputFieldSet
             reference={references.name}
@@ -244,7 +247,12 @@ export default function EditForm() {
 
           <div className="row">
             <div className="col">
-              <label htmlFor="quantityOfStock" className="form-label m-2 orange-light">Quantity Of Stock</label>
+              <label
+                htmlFor="quantityOfStock"
+                className="form-label m-2 orange-light"
+              >
+                Quantity Of Stock
+              </label>
               <input
                 type="range"
                 className="form-range m-2 mb-3"
@@ -263,20 +271,16 @@ export default function EditForm() {
             </div>
           </div>
 
-          <Link to='/'><button type="submit" className="btn btn-orange m-2 mb-2">
+          <button type="submit" className="btn btn-orange m-2 mb-2">
             Save
-          </button></Link>
-
+          </button>
+          <Link to="/">
+            <button type="button" className="btn btn-orange">
+              Back
+            </button>
+          </Link>
         </form>
-        {formAlertText && (
-          <div className={`alert mt-3 alert-${formAlertType}`} role="alert">
-            {formAlertText}
-          </div>
-        )}
       </div>
     </div>
   );
 }
-
-
-

@@ -1,51 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import FilterBtns from './components/FilterBtns';
-import db from './firebase/db';
+import React from 'react';
 
-export default function MostExpensive() {
-  const [products, setProducts] = useState([]);
-  const [mostExpensiveP, setMostExpensiveP] = useState();
+export default function MostExpensive({ products }) {
+  function getMostExpensive() {
+    let newProducts = products;
 
-  // useEffect(() => {
-  //   const unsubscribe = db.collection('shopItems').onSnapshot((snapshot) => {
-  //     const data = [];
+    newProducts.sort((a, b) => (a.price < b.price ? 1 : -1));
 
-  //     snapshot.docs.forEach((product) => {
-  //       const docItem = product.data();
-  //       docItem['docId'] = product.id;
-
-  //       data.push(docItem);
-  //     });
-  //     setProducts(data);
-  //   });
-  //   mostExpensive()
-  //   return () => {
-  //     unsubscribe();
-  //   };
-
-  // }, [products]);
-
-  function mostExpensive() {
-    const mostExpensiveProduct = Math.max(
-      ...products.map((product) => product.price)
-    );
-    products.map((product) => {
-      if (
-        product.price === mostExpensiveProduct &&
-        product.quantityOfStock > 0
-      ) {
-        setMostExpensiveP(product.name);
-      }
-    });
+    return newProducts[0].name;
   }
 
   return (
-    <div className="m-2 mt-5">
-      <h2 className="row">
-        Most expensive available:
-        <p className="text-info col">{mostExpensiveP}</p>
-      </h2>
-    </div>
+    <h2 className="mt-5">
+      Most expensive available: <i>{getMostExpensive()}</i>
+    </h2>
   );
 }

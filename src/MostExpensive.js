@@ -1,6 +1,7 @@
 import React from 'react';
+import LayoutMyShopMenu from './LayoutMyShopMenu';
 
-export default function MostExpensive({ products }) {
+export default function MostExpensive({ products, linksHome }) {
   function getMostExpensive() {
     let newProducts = products;
 
@@ -10,8 +11,10 @@ export default function MostExpensive({ products }) {
   }
 
   return (
-    <h2 className="mt-5">
-      Most expensive available: <i>{getMostExpensive()}</i>
-    </h2>
+    <LayoutMyShopMenu linksHome={linksHome}>
+      <h2 className="mt-5">
+        Most expensive available: <i>{getMostExpensive()}</i>
+      </h2>
+    </LayoutMyShopMenu>
   );
 }

@@ -1,6 +1,7 @@
 import React from 'react';
+import LayoutMyShopMenu from './LayoutMyShopMenu';
 
-export default function AverageStock({ products }) {
+export default function AverageStock({ products, linksHome }) {
   function getAverageStock() {
     let sum = 0;
 
@@ -13,5 +14,9 @@ export default function AverageStock({ products }) {
     return average;
   }
 
-  return <h2 className="mt-5">Average stock: {getAverageStock()}</h2>;
+  return (
+    <LayoutMyShopMenu linksHome={linksHome}>
+      <h2 className="mt-5">Average stock: {getAverageStock()}</h2>
+    </LayoutMyShopMenu>
+  );
 }

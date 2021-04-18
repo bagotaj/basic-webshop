@@ -1,8 +1,9 @@
 import React from 'react';
 
 import Table from './components/Table';
+import LayoutMyShopMenu from './LayoutMyShopMenu';
 
-export default function CheapestFirst({ products }) {
+export default function CheapestFirst({ products, linksHome }) {
   function getCheapestFirst() {
     let newProducts = products;
 
@@ -11,5 +12,9 @@ export default function CheapestFirst({ products }) {
     return newProducts;
   }
 
-  return <Table products={getCheapestFirst()} />;
+  return (
+    <LayoutMyShopMenu linksHome={linksHome}>
+      <Table products={getCheapestFirst()} />
+    </LayoutMyShopMenu>
+  );
 }

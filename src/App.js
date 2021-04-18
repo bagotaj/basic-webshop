@@ -3,16 +3,13 @@ import db from './firebase/db';
 
 import {
   BrowserRouter as Router,
+  NavLink,
   Switch,
   Route,
-  NavLink,
 } from 'react-router-dom';
 
 import { useState, useEffect } from 'react';
 
-import Home from './Home.js';
-import MoreFilters from './MoreFilters';
-import FilterBtns from './components/FilterBtns';
 import OnlyAvailable from './OnlyAvailable';
 import CheapestFirst from './CheapestFirst';
 import ContainsNike from './ContainsNike';
@@ -20,15 +17,19 @@ import AverageStock from './AverageStock';
 import MostExpensive from './MostExpensive';
 import EditForm from './components/EditForm';
 import NewProduct from './NewProduct';
+import FilterByType from './components/FilterByType';
+import Home from './Home';
 
 function App() {
-  const [links, setLinks] = useState({
+  const [linksHome, setLinksHome] = useState({
     'only available': '/only-available',
     'cheapest first': '/cheapest-first',
     'contains nike': '/contains-nike',
     'average stock': '/average-stock',
     'most expensive available': '/most-expensive',
   });
+
+  const [linksMore, setLinksMore] = useState({});
 
   const routes = [
     { path: '/new-product', component: NewProduct },
@@ -38,6 +39,7 @@ function App() {
     { path: '/contains-nike', component: ContainsNike },
     { path: '/average-stock', component: AverageStock },
     { path: '/most-expensive', component: MostExpensive },
+    { path: '/filter-by-type/:type', component: FilterByType },
   ];
 
   const [products, setProducts] = useState([]);
@@ -59,10 +61,26 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    setSetLinksMore();
+  }, [products]);
+
+  function setSetLinksMore() {
+    const uniqueKeys = new Set();
+    for (const object of products) {
+      let pathName = object.type.toLowerCase();
+      uniqueKeys.add(pathName);
+    }
+
+    for (const key in uniqueKeys) {
+      setLinksMore({ ...linksMore, [key]: '/' + key.replace(/ /g, '-') });
+    }
+  }
+
   return (
     <Router>
       <div className="container">
-        <header className="d-flex justify-content-between mt-3">
+        <header className="d-flex justify-content-between mt-4">
           <NavLink to="/" style={{ textDecoration: 'none' }}>
             <h1 className="link-info">My Shop</h1>
           </NavLink>
@@ -71,11 +89,7 @@ function App() {
           </NavLink>
         </header>
         <hr className="text-info" />
-        <FilterBtns links={links} />
         <Switch>
-          <Route path="/more-filters">
-            <MoreFilters />
-          </Route>
           {routes.map((route, i) => (
             <Route
               path={route.path}
@@ -84,12 +98,17 @@ function App() {
                   {...props}
                   products={products}
                   setProducts={setProducts}
+                  linksHome={linksHome}
                 />
               )}
             />
           ))}
           <Route exact path="/">
-            <Home products={products} setProducts={setProducts} />
+            <Home
+              products={products}
+              setProducts={setProducts}
+              linksHome={linksHome}
+            />
           </Route>
         </Switch>
       </div>

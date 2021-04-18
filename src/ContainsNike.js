@@ -1,7 +1,8 @@
 import React from 'react';
 import Table from './components/Table';
+import LayoutMyShopMenu from './LayoutMyShopMenu';
 
-export default function ContainsNike({ products }) {
+export default function ContainsNike({ products, linksHome }) {
   function getContainsNike() {
     let listOfContainsNike = [];
 
@@ -17,5 +18,9 @@ export default function ContainsNike({ products }) {
     return listOfContainsNike;
   }
 
-  return <Table products={getContainsNike()} />;
+  return (
+    <LayoutMyShopMenu linksHome={linksHome}>
+      <Table products={getContainsNike()} />
+    </LayoutMyShopMenu>
+  );
 }

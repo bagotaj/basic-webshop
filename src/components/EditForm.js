@@ -1,10 +1,12 @@
 import { useParams } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import InputFieldSet from '../InputFieldSet';
 import db from '../firebase/db';
 
-export default function EditForm() {
+import InputFieldSet from '../InputFieldSet';
+import LayoutMyShopMenu from '../LayoutMyShopMenu';
+
+export default function EditForm({ linksHome }) {
   const { id } = useParams();
 
   const [fieldValues, setFieldValues] = useState({
@@ -181,106 +183,108 @@ export default function EditForm() {
   }, [id]);
 
   return (
-    <div className="container">
-      <div className="row">
-        <h1 className="text-info mt-3">Edit product details</h1>
-        <hr className="text-info" />
-        {formAlertText && (
-          <div className={`alert mt-3 alert-${formAlertType}`} role="alert">
-            {formAlertText}
-          </div>
-        )}
-        <form
-          onSubmit={handleSubmit}
-          noValidate={true}
-          className={`needs-validation ${
-            formWasValidated ? 'was-validated' : ''
-          }`}
-        >
-          <InputFieldSet
-            reference={references.name}
-            name="name"
-            labelText="Name"
-            type="text"
-            errors={errors}
-            fieldValues={fieldValues}
-            handleInputBlur={handleInputBlur}
-            handleInputChange={handleInputChange}
-            required={true}
-          />
-
-          <InputFieldSet
-            reference={references.type}
-            name="type"
-            labelText="Type"
-            type="text"
-            errors={errors}
-            fieldValues={fieldValues}
-            handleInputBlur={handleInputBlur}
-            handleInputChange={handleInputChange}
-            required={true}
-          />
-
-          <InputFieldSet
-            reference={references.description}
-            name="description"
-            labelText="Description"
-            type="text"
-            errors={errors}
-            fieldValues={fieldValues}
-            handleInputBlur={handleInputBlur}
-            handleInputChange={handleInputChange}
-            required={true}
-          />
-
-          <InputFieldSet
-            reference={references.price}
-            name="price"
-            labelText="Price"
-            type="number"
-            errors={errors}
-            fieldValues={fieldValues}
-            handleInputBlur={handleInputBlur}
-            handleInputChange={handleInputChange}
-            required={true}
-          />
-
-          <div className="row">
-            <div className="col">
-              <label
-                htmlFor="quantityOfStock"
-                className="form-label m-2 orange-light"
-              >
-                Quantity Of Stock
-              </label>
-              <input
-                type="range"
-                className="form-range m-2 mb-3"
-                id="quantityOfStock"
-                min="0"
-                max="100"
-                name="quantityOfStock"
-                fieldValues={fieldValues}
-                value={parseInt(fieldValues.quantityOfStock)}
-                onChange={handleInputChange}
-                ref={references.quantityOfStock}
-              />
+    <LayoutMyShopMenu linksHome={linksHome}>
+      <div className="container">
+        <div className="row">
+          <h1 className="text-info mt-3">Edit product details</h1>
+          <hr className="text-info" />
+          {formAlertText && (
+            <div className={`alert mt-3 alert-${formAlertType}`} role="alert">
+              {formAlertText}
             </div>
-            <div className="col-1 btn-orange mt-4 text-center">
-              <p className="mt-3">{parseInt(fieldValues.quantityOfStock)}</p>
-            </div>
-          </div>
+          )}
+          <form
+            onSubmit={handleSubmit}
+            noValidate={true}
+            className={`needs-validation ${
+              formWasValidated ? 'was-validated' : ''
+            }`}
+          >
+            <InputFieldSet
+              reference={references.name}
+              name="name"
+              labelText="Name"
+              type="text"
+              errors={errors}
+              fieldValues={fieldValues}
+              handleInputBlur={handleInputBlur}
+              handleInputChange={handleInputChange}
+              required={true}
+            />
 
-          <button type="submit" className="btn btn-orange m-2 mb-2">
-            Save
-          </button>
-          <Link to="/">
-            <button type="button" className="btn btn-orange">
-              Back
+            <InputFieldSet
+              reference={references.type}
+              name="type"
+              labelText="Type"
+              type="text"
+              errors={errors}
+              fieldValues={fieldValues}
+              handleInputBlur={handleInputBlur}
+              handleInputChange={handleInputChange}
+              required={true}
+            />
+
+            <InputFieldSet
+              reference={references.description}
+              name="description"
+              labelText="Description"
+              type="text"
+              errors={errors}
+              fieldValues={fieldValues}
+              handleInputBlur={handleInputBlur}
+              handleInputChange={handleInputChange}
+              required={true}
+            />
+
+            <InputFieldSet
+              reference={references.price}
+              name="price"
+              labelText="Price"
+              type="number"
+              errors={errors}
+              fieldValues={fieldValues}
+              handleInputBlur={handleInputBlur}
+              handleInputChange={handleInputChange}
+              required={true}
+            />
+
+            <div className="row">
+              <div className="col">
+                <label
+                  htmlFor="quantityOfStock"
+                  className="form-label m-2 orange-light"
+                >
+                  Quantity Of Stock
+                </label>
+                <input
+                  type="range"
+                  className="form-range m-2 mb-3"
+                  id="quantityOfStock"
+                  min="0"
+                  max="100"
+                  name="quantityOfStock"
+                  fieldValues={fieldValues}
+                  value={parseInt(fieldValues.quantityOfStock)}
+                  onChange={handleInputChange}
+                  ref={references.quantityOfStock}
+                />
+              </div>
+              <div className="col-1 btn-orange mt-4 text-center">
+                <p className="mt-3">{parseInt(fieldValues.quantityOfStock)}</p>
+              </div>
+            </div>
+
+            <button type="submit" className="btn btn-orange m-2 mb-2">
+              Save
             </button>
-          </Link>
-        </form>
+            <Link to="/">
+              <button type="button" className="btn btn-orange">
+                Back
+              </button>
+            </Link>
+          </form>
+        </div>
       </div>
-    </div>
+    </LayoutMyShopMenu>
   );
 }

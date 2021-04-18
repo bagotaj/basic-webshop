@@ -1,9 +1,11 @@
 import React, { useState, useRef } from 'react';
-import InputFieldSet from './InputFieldSet';
 import db from './firebase/db';
 import { Link } from 'react-router-dom';
 
-export default function NewProduct() {
+import InputFieldSet from './InputFieldSet';
+import LayoutMyShopMenu from './LayoutMyShopMenu';
+
+export default function NewProduct({ linksHome }) {
   const [formWasValidated, setFormWasValidated] = useState(false);
   const [formAlertText, setFormAlertText] = useState('');
   const [formAlertType, setFormAlertType] = useState('');
@@ -149,114 +151,118 @@ export default function NewProduct() {
   };
 
   return (
-    <div className="container">
-      <div className="row">
-        <h1 className="text-info mt-3">Add new item</h1>
-        <hr className="text-info" />
-        {formAlertText && (
-          <div className={`alert mt-3 alert-${formAlertType}`} role="alert">
-            {formAlertText}
-          </div>
-        )}
-        <form
-          className={`needs-validation ${
-            formWasValidated ? 'was-validated' : ''
-          }`}
-          noValidate={true}
-          onSubmit={handleSubmit}
-        >
-          <InputFieldSet
-            type="text"
-            labelText="Name"
-            reference={references.name}
-            name="name"
-            handleInputChange={handleInputOnChange}
-            fieldValues={fieldValue}
-            errors={errorMessages}
-            required={true}
-            handleInputBlur={handleInputBlur}
-          />
-          <InputFieldSet
-            type="text"
-            labelText="Type"
-            reference={references.type}
-            name="type"
-            handleInputChange={handleInputOnChange}
-            fieldValues={fieldValue}
-            errors={errorMessages}
-            required={true}
-            handleInputBlur={handleInputBlur}
-          />
-          <div
-            className={`mb-3 ${
-              errorMessages.description !== '' ? 'was-validated' : ''
+    <LayoutMyShopMenu linksHome={linksHome}>
+      <div className="container">
+        <div className="row">
+          <h1 className="text-info mt-3">Add new item</h1>
+          <hr className="text-info" />
+          {formAlertText && (
+            <div className={`alert mt-3 alert-${formAlertType}`} role="alert">
+              {formAlertText}
+            </div>
+          )}
+          <form
+            className={`needs-validation ${
+              formWasValidated ? 'was-validated' : ''
             }`}
+            noValidate={true}
+            onSubmit={handleSubmit}
           >
-            <label
-              htmlFor="description"
-              className="form-label m-2 orange-light"
+            <InputFieldSet
+              type="text"
+              labelText="Name"
+              reference={references.name}
+              name="name"
+              handleInputChange={handleInputOnChange}
+              fieldValues={fieldValue}
+              errors={errorMessages}
+              required={true}
+              handleInputBlur={handleInputBlur}
+            />
+            <InputFieldSet
+              type="text"
+              labelText="Type"
+              reference={references.type}
+              name="type"
+              handleInputChange={handleInputOnChange}
+              fieldValues={fieldValue}
+              errors={errorMessages}
+              required={true}
+              handleInputBlur={handleInputBlur}
+            />
+            <div
+              className={`mb-3 ${
+                errorMessages.description !== '' ? 'was-validated' : ''
+              }`}
             >
-              Description
-            </label>
-            <textarea
-              id="description"
-              className="form-control mb-3 m-2 orange-input"
-              cols="10"
-              rows="2"
-              name="description"
-              ref={references.description}
-              onChange={handleInputOnChange}
-              onBlur={handleInputBlur}
-              value={fieldValue.description}
-              required
-            ></textarea>
-            <div className="invalid-feedback">{errorMessages.description}</div>
-          </div>
-          <InputFieldSet
-            type="number"
-            labelText="Price"
-            reference={references.price}
-            name="price"
-            handleInputChange={handleInputOnChange}
-            fieldValues={fieldValue}
-            errors={errorMessages}
-            required={true}
-            handleInputBlur={handleInputBlur}
-          />
-          <div className="row">
-            <div className="col">
               <label
-                htmlFor="quantityOfStock"
+                htmlFor="description"
                 className="form-label m-2 orange-light"
               >
-                Quantity Of Stock
+                Description
               </label>
-              <input
-                type="range"
-                className="form-range m-2 mb-3"
-                id="quantityOfStock"
-                min="0"
-                max="100"
-                name="quantity"
-                value={parseInt(fieldValue.quantity)}
+              <textarea
+                id="description"
+                className="form-control mb-3 m-2 orange-input"
+                cols="10"
+                rows="2"
+                name="description"
+                ref={references.description}
                 onChange={handleInputOnChange}
-                ref={references.quantity}
-              />
+                onBlur={handleInputBlur}
+                value={fieldValue.description}
+                required
+              ></textarea>
+              <div className="invalid-feedback">
+                {errorMessages.description}
+              </div>
             </div>
-            <div className="col-1 btn-orange mt-4 text-center">
-              <p className="mt-3">{fieldValue.quantity}</p>
+            <InputFieldSet
+              type="number"
+              labelText="Price"
+              reference={references.price}
+              name="price"
+              handleInputChange={handleInputOnChange}
+              fieldValues={fieldValue}
+              errors={errorMessages}
+              required={true}
+              handleInputBlur={handleInputBlur}
+            />
+            <div className="row">
+              <div className="col">
+                <label
+                  htmlFor="quantityOfStock"
+                  className="form-label m-2 orange-light"
+                >
+                  Quantity Of Stock
+                </label>
+                <input
+                  type="range"
+                  className="form-range m-2 mb-3"
+                  id="quantityOfStock"
+                  min="0"
+                  max="100"
+                  name="quantity"
+                  value={parseInt(fieldValue.quantity)}
+                  onChange={handleInputOnChange}
+                  ref={references.quantity}
+                />
+              </div>
+              <div className="col-1 btn-orange mt-4 text-center">
+                <p className="mt-3">{fieldValue.quantity}</p>
+              </div>
             </div>
-          </div>
-          <button type="submit" className="btn btn-orange m-2 mb-2">
-            Save
-          </button>
-          <Link to="/">
-            <button type="button" className="btn btn-orange">
-              Back
+            <button type="submit" className="btn btn-orange m-2 mb-2">
+              Save
             </button>
-          </Link>
-        </form>
+            <Link to="/">
+              <button type="button" className="btn btn-orange">
+                Back
+              </button>
+            </Link>
+          </form>
+        </div>
       </div>
-    </div>
+    </LayoutMyShopMenu>
   );
 }

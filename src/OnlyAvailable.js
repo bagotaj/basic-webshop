@@ -1,7 +1,8 @@
 import React from 'react';
 import Table from './components/Table';
+import LayoutMyShopMenu from './LayoutMyShopMenu';
 
-export default function OnlyAvailable({ products, setProducts }) {
+export default function OnlyAvailable({ products, linksHome }) {
   function filterOnlyAvailable() {
     let newProducts = [];
 
@@ -14,5 +15,9 @@ export default function OnlyAvailable({ products, setProducts }) {
     return newProducts;
   }
 
-  return <Table products={filterOnlyAvailable()} />;
+  return (
+    <LayoutMyShopMenu linksHome={linksHome}>
+      <Table products={filterOnlyAvailable()} />;
+    </LayoutMyShopMenu>
+  );
 }

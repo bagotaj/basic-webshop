@@ -20,7 +20,7 @@ export default function ContainsNike({ products, linksHome }) {
 
   return (
     <LayoutMyShopMenu linksHome={linksHome}>
-      <Table products={getContainsNike()} />
+      <Table products={getContainsNike()} currency={'huf'} />
     </LayoutMyShopMenu>
   );
 }

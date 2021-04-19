@@ -20,6 +20,9 @@ import NewProduct from './NewProduct';
 import FilterByType from './components/FilterByType';
 import Home from './Home';
 import MoreFilters from './MoreFilters';
+import PriceInEur from './PriceInEur';
+import PriceInOriginal from './PriceInOriginal';
+import FilterByPrice from './FilterByPrice';
 
 function App() {
   const [linksHome, setLinksHome] = useState({
@@ -32,7 +35,7 @@ function App() {
 
   const [linksMore, setLinksMore] = useState({});
 
-  const routes = [
+  const routesMyShop = [
     { path: '/new-product', component: NewProduct },
     { path: '/product/edit/:id', component: EditForm },
     { path: '/only-available', component: OnlyAvailable },
@@ -40,7 +43,13 @@ function App() {
     { path: '/contains-nike', component: ContainsNike },
     { path: '/average-stock', component: AverageStock },
     { path: '/most-expensive', component: MostExpensive },
+  ];
+
+  const routesMore = [
     { path: '/filter-by-type/:type', component: FilterByType },
+    { path: '/price-in-eur', component: PriceInEur },
+    { path: '/price-in-original', component: PriceInOriginal },
+    { path: '/filter-by-price', component: FilterByPrice },
   ];
 
   const [products, setProducts] = useState([]);
@@ -75,41 +84,21 @@ function App() {
 
     let uniqueValues = values.filter(onlyUnique);
 
-    let links = {};
+    let links = {
+      'euro ': '/price-in-eur',
+      'original currency': '/price-in-original',
+      'filter by price': '/filter-by-price',
+    };
 
     uniqueValues.forEach((value) => {
-      links[value] = '/' + value.replace(/ /g, '-');
+      links[value] = `/filter-by-type/${value}`;
     });
-
-    console.log(links);
 
     setLinksMore(links);
   }
 
   function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
-  }
-
-  function setMoreFilterRoutes() {
-    let moreFilterRoutes = [];
-
-    for (const key in linksMore) {
-      let route = (
-        <Route
-          path={`/filter-by-type/${key}`}
-          render={(props) => (
-            <FilterByType
-              {...props}
-              products={products}
-              setProducts={setProducts}
-              linksMore={linksMore}
-            />
-          )}
-        />
-      );
-
-      moreFilterRoutes.push(route);
-    }
   }
 
   return (
@@ -125,7 +114,7 @@ function App() {
         </header>
         <hr className="text-info" />
         <Switch>
-          {routes.map((route, i) => (
+          {routesMyShop.map((route, i) => (
             <Route
               key={i}
               path={route.path}
@@ -139,7 +128,20 @@ function App() {
               )}
             />
           ))}
-          {setMoreFilterRoutes()}
+          {routesMore.map((route, i) => (
+            <Route
+              key={i + 'more'}
+              path={route.path}
+              render={(props) => (
+                <route.component
+                  {...props}
+                  products={products}
+                  setProducts={setProducts}
+                  linksMore={linksMore}
+                />
+              )}
+            />
+          ))}
           <Route exact path="/more-filters">
             <MoreFilters
               products={products}

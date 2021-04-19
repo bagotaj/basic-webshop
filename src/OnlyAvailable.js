@@ -17,7 +17,7 @@ export default function OnlyAvailable({ products, linksHome }) {
 
   return (
     <LayoutMyShopMenu linksHome={linksHome}>
-      <Table products={filterOnlyAvailable()} />;
+      <Table products={filterOnlyAvailable()} currency={'huf'} />;
     </LayoutMyShopMenu>
   );
 }

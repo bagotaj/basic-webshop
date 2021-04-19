@@ -69,6 +69,11 @@ input[type='range']:focus {
   text-align: center;
 }
 
+.euro::after {
+  content: ' €';
+  text-align: center;
+}
+
 table th {
   background-color: #0fcaf0;
   text-align: center;

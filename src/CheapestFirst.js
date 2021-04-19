@@ -14,7 +14,7 @@ export default function CheapestFirst({ products, linksHome }) {
 
   return (
     <LayoutMyShopMenu linksHome={linksHome}>
-      <Table products={getCheapestFirst()} />
+      <Table products={getCheapestFirst()} currency={'huf'} />
     </LayoutMyShopMenu>
   );
 }

@@ -6,7 +6,7 @@ import DeleteItem from './DeleteItem';
 
 import db from '../firebase/db';
 
-function Table({ products }) {
+function Table({ products, currency }) {
   const [itemToBeDeleted, setItemToBeDeleted] = useState(null);
 
   const deleteModalRef = useRef();
@@ -53,6 +53,7 @@ function Table({ products }) {
                     description={product.description}
                     price={product.price}
                     quantityOfStock={product.quantityOfStock}
+                    currency={currency}
                   />
                   <td>
                     <Link to={`/product/edit/${product.docId}`}>

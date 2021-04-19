@@ -13,7 +13,7 @@ export default function Home({ products, setProducts, linksHome }) {
       <Link to="/new-product">
         <button className="btn btn-orange mt-4 w-100">Add New Product</button>
       </Link>
-      <Table products={products} />
+      <Table products={products} currency={'huf'} />
     </LayoutMyShopMenu>
   );
 }

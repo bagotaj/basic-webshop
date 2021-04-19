@@ -19,6 +19,7 @@ import EditForm from './components/EditForm';
 import NewProduct from './NewProduct';
 import FilterByType from './components/FilterByType';
 import Home from './Home';
+import MoreFilters from './MoreFilters';
 
 function App() {
   const [linksHome, setLinksHome] = useState({
@@ -66,14 +67,48 @@ function App() {
   }, [products]);
 
   function setSetLinksMore() {
-    const uniqueKeys = new Set();
+    const values = [];
     for (const object of products) {
       let pathName = object.type.toLowerCase();
-      uniqueKeys.add(pathName);
+      values.push(pathName);
     }
 
-    for (const key in uniqueKeys) {
-      setLinksMore({ ...linksMore, [key]: '/' + key.replace(/ /g, '-') });
+    let uniqueValues = values.filter(onlyUnique);
+
+    let links = {};
+
+    uniqueValues.forEach((value) => {
+      links[value] = '/' + value.replace(/ /g, '-');
+    });
+
+    console.log(links);
+
+    setLinksMore(links);
+  }
+
+  function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+  }
+
+  function setMoreFilterRoutes() {
+    let moreFilterRoutes = [];
+
+    for (const key in linksMore) {
+      let route = (
+        <Route
+          path={`/filter-by-type/${key}`}
+          render={(props) => (
+            <FilterByType
+              {...props}
+              products={products}
+              setProducts={setProducts}
+              linksMore={linksMore}
+            />
+          )}
+        />
+      );
+
+      moreFilterRoutes.push(route);
     }
   }
 
@@ -92,6 +127,7 @@ function App() {
         <Switch>
           {routes.map((route, i) => (
             <Route
+              key={i}
               path={route.path}
               render={(props) => (
                 <route.component
@@ -103,6 +139,14 @@ function App() {
               )}
             />
           ))}
+          {setMoreFilterRoutes()}
+          <Route exact path="/more-filters">
+            <MoreFilters
+              products={products}
+              setProducts={setProducts}
+              linksMore={linksMore}
+            />
+          </Route>
           <Route exact path="/">
             <Home
               products={products}

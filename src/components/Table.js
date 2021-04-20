@@ -31,8 +31,8 @@ function Table({ products, currency }) {
       <header className={'container mt-4 mb-4'}></header>
       <main className={'container-md'}>
         <section>
-          <table>
-            <thead>
+          <table className="w-100">
+            <thead className="w-100">
               <tr>
                 <th>Name</th>
                 <th>Type</th>
